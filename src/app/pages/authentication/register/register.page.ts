@@ -23,7 +23,7 @@ export class RegisterPage implements OnInit {
   }
 
   submitSignupForm() {
-    this.router.navigateByUrl('/articles');
+    // this.router.navigateByUrl('/articles');
   }
 
 }

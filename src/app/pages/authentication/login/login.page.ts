@@ -21,7 +21,7 @@ export class LoginPage implements OnInit {
   }
 
   submitSignInForm() {
-    this.router.navigateByUrl('/articles');
+    // this.router.navigateByUrl('/articles');
   }
 
 }
