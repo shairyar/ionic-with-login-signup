@@ -1,5 +1,7 @@
 {
   "name": "ionic-for-rails",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

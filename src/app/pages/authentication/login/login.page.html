@@ -11,25 +11,25 @@
   <p text-center>Existing user? Sign in here.</p>
 
   <form [formGroup]="signInForm" (ngSubmit)="submitSignInForm()">
-    <ion-item style="border-top: 1px solid gainsboro;">
-      <ion-label>Email</ion-label>
-      <ion-input id="email" autocapitalize="on" type="email" formControlName="email" required>
-      </ion-input>
-    </ion-item>
+    <div formGroupName="user">
+      <ion-item>
+        <ion-label>Email</ion-label>
+        <ion-input id="email" autocapitalize="on" type="email" formControlName="email" required>
+        </ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>Password</ion-label>
-      <ion-input id="password" type="password" formControlName="password" required>
-      </ion-input>
-    </ion-item>
-
+      <ion-item>
+        <ion-label>Password</ion-label>
+        <ion-input id="password" type="password" formControlName="password" required>
+        </ion-input>
+      </ion-item>
+    </div>
     <ion-grid>
-      <ion-button style="margin-top: 10px; margin-bottom: 15px;" expand="block" type="submit"
-        [disabled]="!signInForm.valid">
+      <ion-button expand="block" type="submit" [disabled]="!signInForm.valid">
         <strong>Log in</strong>
       </ion-button>
-      <p style="text-align: center">
-        <a style="font-size: 2.5vh;" [routerLink]="['/register']">Or new user? Create an account</a>
+      <p>
+        <a [routerLink]="['/register']">Or new user? Create an account</a>
       </p>
     </ion-grid>
   </form>
