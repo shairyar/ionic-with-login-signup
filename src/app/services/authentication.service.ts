@@ -15,8 +15,7 @@ export class AuthenticationService {
   constructor(
     private storage: Storage,
     private platform: Platform,
-    public navCtrl: NavController,
-    private router: Router ) {
+    private navCtrl: NavController) {
     console.log('hello AuthenticationService');
     this.platform.ready().then(() => {
       this.checkUser();
@@ -59,5 +58,14 @@ export class AuthenticationService {
 
   getUser() {
     return this.storage.get(STORED_USER);
+  }
+
+  isLoggedIn(): Promise<boolean> {
+    return this.getUser().then((user) => {
+      return user ? true : false;
+    })
+    .catch((err) => {
+      return false;
+    });
   }
 }

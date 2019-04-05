@@ -1,23 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
 import { ArticlesPage } from './articles.page';
 
-const routes: Routes = [
-  { path: '', component: ArticlesPage },
-  { path: 'show', loadChildren: '../articles/show/show.module#ShowPageModule' }
-];
+import { articlesRoutes } from './articles-routing.module';
+import { AuthGuardService } from 'src/app/services/auth-guard.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(articlesRoutes)
+  ],
+  providers: [
+    AuthGuardService
   ],
   declarations: [ArticlesPage]
 })

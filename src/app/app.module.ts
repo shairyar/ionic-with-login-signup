@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { IonicStorageModule } from '@ionic/storage';
+import { ArticlesPageModule } from './pages/articles/articles.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -19,6 +20,7 @@ import { IonicStorageModule } from '@ionic/storage';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    ArticlesPageModule,
     IonicStorageModule.forRoot()
   ],
   providers: [
