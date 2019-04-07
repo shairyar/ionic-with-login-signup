@@ -1,8 +1,7 @@
 import { Platform, NavController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 const STORED_USER = 'user';
 
@@ -10,62 +9,48 @@ const STORED_USER = 'user';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  authenticationState = new BehaviorSubject(false);
+  private currentUserSubject: BehaviorSubject<any>;
+  public currentUser: Observable<any>;
 
   constructor(
     private storage: Storage,
     private platform: Platform,
     private navCtrl: NavController) {
     console.log('hello AuthenticationService');
-    this.platform.ready().then(() => {
-      this.checkUser();
-    });
-  }
 
-  checkUser() {
-    this.storage.get(STORED_USER).then(res => {
-      if (res) {
-        this.authenticationState.next(true);
-      }
+    this.platform.ready().then(() => {
+      this.getUser().then(user => {
+        this.currentUserSubject = new BehaviorSubject<any>(this.getUserstate(user));
+        this.currentUser = this.currentUserSubject.asObservable();
+      });
     });
   }
 
   login(user) {
-    console.log(user);
-    return this.storage.set(STORED_USER, user).then(() => {
-      this.authenticationState.next(true);
+    this.storage.set(STORED_USER, user).then(() => {
       this.navCtrl.navigateRoot('/articles');
     });
   }
 
   logout() {
-    if (this.platform.is('ios')) {
-      return this.storage.remove(STORED_USER).then(() => {
-        this.authenticationState.next(false);
-        this.navCtrl.navigateRoot('/login');
-      });
-    } else {
-      return this.storage.remove(STORED_USER).then(() => {
-        this.authenticationState.next(false);
-        this.navCtrl.navigateRoot('');
-      });
-    }
+    this.storage.remove(STORED_USER).then(() => {
+      this.navCtrl.navigateRoot('/login');
+    });
   }
 
   isAuthenticated() {
-    return this.authenticationState.value;
+    return this.getUser().then(user => {
+      this.currentUserSubject = new BehaviorSubject<any>(this.getUserstate(user));
+      return this.currentUserSubject.value;
+    });
   }
 
   getUser() {
     return this.storage.get(STORED_USER);
   }
 
-  isLoggedIn(): Promise<boolean> {
-    return this.getUser().then((user) => {
-      return user ? true : false;
-    })
-    .catch((err) => {
-      return false;
-    });
+
+  getUserstate(user) {
+    return (user != null) ? true : false;
   }
 }
